@@ -2,5 +2,5 @@ package simonproject;
 
 public interface ControllerInterface
 {
-   public void userPressed();
+   public void userPressed(int blocksCount);
 }

@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class SimonGUI implements GameObserver
+public class SimonGUI implements GameObserver, ActionListener
 {
     private ControllerInterface controller;
     private SimonModel model;
@@ -24,7 +24,7 @@ public class SimonGUI implements GameObserver
 
         this.model.register(this);
 
-        this.mainFrame = new JFrame("SIMON");
+        this.mainFrame = new JFrame("S I M O N");
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.mainPanel = new JPanel();
@@ -35,7 +35,6 @@ public class SimonGUI implements GameObserver
         this.buttons = new SimonButtons(model);
         this.buttons.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
         this.buttons.setPreferredSize(new Dimension(300, 300));
-        // this.buttons.setOpaque(false);
 
         this.mainPanel.add(buttons);
 
@@ -47,6 +46,7 @@ public class SimonGUI implements GameObserver
         this.startButton.setMaximumSize(new Dimension(200, this.startButton.getMaximumSize().height));
         this.startButton.setMinimumSize(new Dimension(0, this.startButton.getMinimumSize().height));
         this.startButton.setPreferredSize(new Dimension(70, 70));
+        this.startButton.addActionListener(this);
         this.mainPanel.add(this.startButton);
 
         this.mainFrame.add(mainPanel);
@@ -56,8 +56,19 @@ public class SimonGUI implements GameObserver
     }
 
     @Override
+    public void actionPerformed(ActionEvent event)
+    {
+        System.out.println("Clicked btn");
+        this.controller.userPressed(4);
+    }
+
+    @Override
     public void update()
     {
-
+        // if(model.getPatternLength() == model.getPattern().size())
+        // {
+        //     model.clearPattern();
+        // }
+        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + model.getPattern());
     }
 }
