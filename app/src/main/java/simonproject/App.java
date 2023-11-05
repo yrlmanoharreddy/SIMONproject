@@ -3,12 +3,14 @@
  */
 package simonproject;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import simonproject.model.*;
+import simonproject.controller.*;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+public class App
+{
+    public static void main(String[] args)
+    {
+        SimonModel model = new SimonModel();
+        GameController controller = new GameController(model);
     }
 }
