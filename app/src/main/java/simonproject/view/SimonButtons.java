@@ -21,9 +21,11 @@ public class SimonButtons extends JPanel
         for(int i=0;i<4;i++)
         {
             this.buttons[i] = new JButton(Integer.toString(i));
-            this.buttons[i].setBackground(Color.YELLOW);
-            // this.buttons[i].setBorder(BorderFactory.createLineBorder(Color.RED, 5));
+            this.buttons[i].setOpaque(true);
+            this.buttons[i].setBackground(colors[i]);
+            this.buttons[i].setBorder(BorderFactory.createLineBorder(colors[i], 5));
             this.add(this.buttons[i]);
         }
+        this.setBackground(new Color(227, 206, 245));
     }
 }

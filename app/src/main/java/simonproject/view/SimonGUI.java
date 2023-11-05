@@ -29,17 +29,24 @@ public class SimonGUI implements GameObserver
 
         this.mainPanel = new JPanel();
         this.mainPanel.setBackground(new Color(227, 206, 245));
-        this.mainPanel.setPreferredSize(new Dimension(500, 500));
+        this.mainPanel.setPreferredSize(new Dimension(600, 600));
         this.mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         this.buttons = new SimonButtons(model);
-        this.buttons.setPreferredSize(new Dimension(400, 400));
+        this.buttons.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        this.buttons.setPreferredSize(new Dimension(300, 300));
+        // this.buttons.setOpaque(false);
 
         this.mainPanel.add(buttons);
 
         this.startButton = new JButton("Start");
         this.startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.startButton.setBackground(Color.RED);
+        this.startButton.setBackground(Color.CYAN);
+        this.startButton.setOpaque(true);
+        this.startButton.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
+        this.startButton.setMaximumSize(new Dimension(200, this.startButton.getMaximumSize().height));
+        this.startButton.setMinimumSize(new Dimension(0, this.startButton.getMinimumSize().height));
+        this.startButton.setPreferredSize(new Dimension(70, 70));
         this.mainPanel.add(this.startButton);
 
         this.mainFrame.add(mainPanel);
