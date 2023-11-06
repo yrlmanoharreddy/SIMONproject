@@ -41,33 +41,41 @@ public class SimonButtons extends JPanel {
         }
         this.setBackground(new Color(227, 206, 245));
 
-        // try {
-        // for (int i = 0; i < 4; i++) {
-        // URL url = getClass().getResource("/beep" + i + 1 + ".wav");
-        // AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-        // this.audioIn[i] = audioIn;
-        // }
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
+        try {
+            for (int i = 0; i < 4; i++) {
+                URL url = getClass().getResource("/beep" + (i + 1) + ".wav");
+                System.out.println(url);
+                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                this.audioIn[i] = audioIn;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void blinkButtons(ArrayList<Integer> pattern) {
         this.pattern = pattern;
-        blinkButton(pattern.get(button));
+        try {
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn[pattern.get(button) - 1]);
+            blinkButton(pattern.get(button), clip);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void blinkButton(int buttonIndex) {
+    private void blinkButton(int buttonIndex, Clip clip) {
         Timer timer = new Timer(50 * (buttonIndex + 2), new ActionListener() {
             int count = 0;
             JButton currentButton = buttons[buttonIndex - 1];
+            // Clip clip;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (count == 0) {
                     setButtonColor(currentButton, buttonIndex);
-
                 }
                 if (count == 5) {
                     resetButtonColor(currentButton, buttonIndex);
@@ -76,6 +84,7 @@ public class SimonButtons extends JPanel {
                     if (button < pattern.size()) {
                         blinkButtons(pattern);
                     }
+                    clip.stop();
                 }
                 count++;
             }
@@ -86,47 +95,16 @@ public class SimonButtons extends JPanel {
     private void setButtonColor(JButton button, int buttonIndex) {
         switch (buttonIndex - 1) {
             case 0:
-                // if (buttonIndex - 1 == 0) {
-                // Clip clip;
-                // try {
-                // clip = AudioSystem.getClip();
-                // clip.open(audioIn[0]);
-                // clip.start();
-                // } catch (Exception er) {
-                // er.printStackTrace();
-                // }
-                // }
                 button.setBackground(new Color(247, 7, 7));
                 break;
             case 1:
                 button.setBackground(new Color(72, 84, 250));
-                // try {
-                // Clip clip = AudioSystem.getClip();
-                // clip.open(audioIn[buttonIndex - 1]);
-                // clip.start();
-                // } catch (Exception er) {
-                // er.printStackTrace();
-                // }
                 break;
             case 2:
                 button.setBackground(new Color(246, 255, 3));
-                // try {
-                // Clip clip = AudioSystem.getClip();
-                // clip.open(audioIn[buttonIndex - 1]);
-                // clip.start();
-                // } catch (Exception er) {
-                // er.printStackTrace();
-                // }
                 break;
             case 3:
                 button.setBackground(new Color(62, 245, 56));
-                // try {
-                // Clip clip = AudioSystem.getClip();
-                // clip.open(audioIn[buttonIndex - 1]);
-                // clip.start();
-                // } catch (Exception er) {
-                // er.printStackTrace();
-                // }
                 break;
         }
     }
