@@ -32,7 +32,7 @@ public class SimonGUI implements GameObserver, ActionListener {
         this.mainPanel.setPreferredSize(new Dimension(600, 600));
         this.mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        this.buttons = new SimonButtons(model);
+        this.buttons = new SimonButtons(model, controller);
         this.buttons.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.buttons.setPreferredSize(new Dimension(300, 300));
 
@@ -64,18 +64,7 @@ public class SimonGUI implements GameObserver, ActionListener {
 
     @Override
     public void update() {
-        // if(model.getPatternLength() == model.getPattern().size())
-        // {
-        // model.clearPattern();
-        // }
-        ArrayList<Integer> pattern = model.getPattern();
-        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
-        // ArrayList<Integer> pat = new ArrayList<>();
-        // pat.add(1);
-        // pat.add(2);
-        // pat.add(3);
-        // pat.add(3);
-        // pat.add(2);
-        buttons.blinkButtons(pattern);
+        
+        buttons.startModification();
     }
 }

@@ -22,4 +22,11 @@ public class GameController implements ControllerInterface
         System.out.println("In controller");
         model.generatePattern(blocksCount);
     }
+
+    @Override
+    public void userPatternPressed(int blockNumber)
+    {
+        System.out.println("User Pressing buttons **" + blockNumber);
+        model.setUserPattern(blockNumber);
+    }
 }

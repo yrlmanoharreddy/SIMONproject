@@ -1,6 +1,7 @@
 package simonproject.view;
 
 import simonproject.model.SimonModel;
+import simonproject.ControllerInterface;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,15 +16,17 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
-public class SimonButtons extends JPanel {
+public class SimonButtons extends JPanel implements ActionListener{
 
     private SimonModel model;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private AudioInputStream audioIn[];
     private JButton buttons[];
     private int button = 0;
+    private ControllerInterface controller;
 
-    public SimonButtons(SimonModel model) {
+    public SimonButtons(SimonModel model, ControllerInterface controller) {
+        this.controller = controller;
         this.model = model;
         this.setLayout(new GridLayout(2, 2));
         this.buttons = new JButton[4];
@@ -37,6 +40,7 @@ public class SimonButtons extends JPanel {
             this.buttons[i].setForeground(Color.WHITE);
             this.buttons[i].setBorder(BorderFactory.createLineBorder(colors[i], 5));
             this.buttons[i].setFocusable(false);
+            this.buttons[i].addActionListener(this);
             this.add(this.buttons[i]);
         }
         this.setBackground(new Color(227, 206, 245));
@@ -51,6 +55,16 @@ public class SimonButtons extends JPanel {
         // e.printStackTrace();
         // }
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event)
+    {
+        System.out.println("1");
+        JButton pressedButton = (JButton)event.getSource();
+        int x = Integer.parseInt(pressedButton.getText());
+        System.out.println(x);
+        this.controller.userPatternPressed(x);
     }
 
     public void blinkButtons(ArrayList<Integer> pattern) {
@@ -145,6 +159,29 @@ public class SimonButtons extends JPanel {
             case 3:
                 button.setBackground(new Color(1, 92, 1));
                 break;
+        }
+    }
+
+    public void startModification()
+    {
+        if(model.isGameOver().equals("LOST"))
+        {
+            System.out.println("You Lost the game");
+            //Task 2: Disable all buttons and add Start Game button to Restart the game
+        }
+        else if (model.isGameOver().equals("WIN"))
+        {
+            System.out.println("You WON");
+            //Task ==1: write code for some annimation and delay
+            this.controller.userPressed(4);
+            System.out.println("Statement after controller called");
+        }
+        else
+        {
+        this.button = 0;
+        ArrayList<Integer> pattern = model.getPattern();
+        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
+        blinkButtons(pattern);
         }
     }
 }

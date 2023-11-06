@@ -12,10 +12,16 @@ public class SimonModel {
     private int buttonLightUp;
     private int patternlength;
     private ArrayList<Integer> pattern;
+    private ArrayList<Integer> userPattern;
+    private int z;
+    private String winStatus;
 
     public SimonModel() {
         this.random = new Random();
         this.pattern = new ArrayList<Integer>();
+        this.userPattern = new ArrayList<Integer>();
+        this.z = 0;
+        this.winStatus = "STARTED";
     }
 
     public void randombuttonLightUp(int blocksCount) {
@@ -24,6 +30,12 @@ public class SimonModel {
     }
 
     public void generatePattern(int blocksCount) {
+        System.out.println("Game strt");
+        winStatus = "STARTED";
+        z = 0;
+        userPattern.clear();
+        pattern.clear();
+
         this.blocksCount = blocksCount;
         this.patternlength = random.nextInt(blocksCount) + 1;
         System.out.println("patternlen :" + patternlength);
@@ -45,8 +57,35 @@ public class SimonModel {
         return pattern;
     }
 
-    public void clearPattern() {
-        pattern.clear();
+    public void setUserPattern(int blockNumber)
+    {
+        userPattern.add(blockNumber);
+        z++;
+        comparePatterns();
+    }
+
+    public void comparePatterns()
+    {
+        int m = userPattern.get(userPattern.size()-1);
+        int n = pattern.get(z-1);
+        System.out.println("userpressed:"+m+":systempattern:"+n);
+        if(m != n)
+        {
+            winStatus = "LOST";
+            notifyObservers();
+            return;
+        }
+
+        if(userPattern.size() == pattern.size())
+        {
+            winStatus = "WIN";
+            notifyObservers();
+        }
+    }
+
+    public String isGameOver()
+    {
+        return winStatus;
     }
 
     public void register(GameObserver observer) {
