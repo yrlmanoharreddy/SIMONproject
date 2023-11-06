@@ -5,8 +5,7 @@ import simonproject.GameObserver;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SimonModel
-{
+public class SimonModel {
     private ArrayList<GameObserver> observers = new ArrayList<GameObserver>();
     private int blocksCount;
     private Random random;
@@ -14,64 +13,52 @@ public class SimonModel
     private int patternlength;
     private ArrayList<Integer> pattern;
 
-    public SimonModel()
-    {
+    public SimonModel() {
         this.random = new Random();
         this.pattern = new ArrayList<Integer>();
     }
 
-    public void randombuttonLightUp(int blocksCount)
-    {
+    public void randombuttonLightUp(int blocksCount) {
         buttonLightUp = this.random.nextInt(blocksCount) + 1;
         pattern.add(buttonLightUp);
+    }
+
+    public void generatePattern(int blocksCount) {
+        this.blocksCount = blocksCount;
+        this.patternlength = random.nextInt(blocksCount) + 1;
+        System.out.println("patternlen :" + patternlength);
+        for (int i = 0; i < patternlength; i++) {
+            randombuttonLightUp(blocksCount);
+        }
         notifyObservers();
     }
 
-    public void generatePattern(int blocksCount)
-    {
-        this.blocksCount = blocksCount;
-        this.patternlength = random.nextInt(blocksCount) + 1;
-        System.out.println("patternlen ;"+patternlength);
-        for(int i=0; i<patternlength; i++)
-        {
-            randombuttonLightUp(blocksCount);
-        }
-    }
-
-    public int getButtonLightUp()
-    {
+    public int getButtonLightUp() {
         return buttonLightUp;
     }
 
-    public int getPatternLength()
-    {
+    public int getPatternLength() {
         return patternlength;
     }
 
-    public ArrayList<Integer> getPattern()
-    {
+    public ArrayList<Integer> getPattern() {
         return pattern;
     }
 
-    public void clearPattern()
-    {
+    public void clearPattern() {
         pattern.clear();
     }
 
-    public void register(GameObserver observer)
-    {
+    public void register(GameObserver observer) {
         observers.add(observer);
     }
 
-    public void unregister(GameObserver observer)
-    {
+    public void unregister(GameObserver observer) {
         observers.remove(observer);
     }
 
-    public void notifyObservers()
-    {
-        for(GameObserver observer : observers)
-        {
+    public void notifyObservers() {
+        for (GameObserver observer : observers) {
             observer.update();
         }
     }

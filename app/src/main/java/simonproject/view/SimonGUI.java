@@ -6,10 +6,11 @@ import simonproject.model.SimonModel;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
-public class SimonGUI implements GameObserver, ActionListener
-{
+public class SimonGUI implements GameObserver, ActionListener {
     private ControllerInterface controller;
     private SimonModel model;
     private JFrame mainFrame;
@@ -17,8 +18,7 @@ public class SimonGUI implements GameObserver, ActionListener
     private SimonButtons buttons;
     private JButton startButton;
 
-    public SimonGUI(ControllerInterface controller, SimonModel model)
-    {
+    public SimonGUI(ControllerInterface controller, SimonModel model) {
         this.controller = controller;
         this.model = model;
 
@@ -33,7 +33,7 @@ public class SimonGUI implements GameObserver, ActionListener
         this.mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         this.buttons = new SimonButtons(model);
-        this.buttons.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        this.buttons.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         this.buttons.setPreferredSize(new Dimension(300, 300));
 
         this.mainPanel.add(buttons);
@@ -42,6 +42,7 @@ public class SimonGUI implements GameObserver, ActionListener
         this.startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.startButton.setBackground(Color.CYAN);
         this.startButton.setOpaque(true);
+        this.startButton.setFocusable(false);
         this.startButton.setBorder(BorderFactory.createLineBorder(Color.CYAN, 5));
         this.startButton.setMaximumSize(new Dimension(200, this.startButton.getMaximumSize().height));
         this.startButton.setMinimumSize(new Dimension(0, this.startButton.getMinimumSize().height));
@@ -56,19 +57,25 @@ public class SimonGUI implements GameObserver, ActionListener
     }
 
     @Override
-    public void actionPerformed(ActionEvent event)
-    {
+    public void actionPerformed(ActionEvent event) {
         System.out.println("Clicked btn");
         this.controller.userPressed(4);
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         // if(model.getPatternLength() == model.getPattern().size())
         // {
-        //     model.clearPattern();
+        // model.clearPattern();
         // }
-        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + model.getPattern());
+        ArrayList<Integer> pattern = model.getPattern();
+        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
+        // ArrayList<Integer> pat = new ArrayList<>();
+        // pat.add(1);
+        // pat.add(2);
+        // pat.add(3);
+        // pat.add(3);
+        // pat.add(2);
+        buttons.blinkButtons(pattern);
     }
 }
