@@ -8,6 +8,7 @@ import java.awt.event.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;
@@ -16,21 +17,23 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
-public class SimonButtons extends JPanel implements ActionListener{
+public class SimonButtons extends JPanel implements ActionListener {
 
     private SimonModel model;
+    private SimonGUI gui;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private AudioInputStream audioIn[];
     private JButton buttons[];
     private int button = 0;
     private ControllerInterface controller;
 
-    public SimonButtons(SimonModel model, ControllerInterface controller) {
+    public SimonButtons(SimonModel model, ControllerInterface controller, SimonGUI gui) {
         this.controller = controller;
         this.model = model;
         this.setLayout(new GridLayout(2, 2));
         this.buttons = new JButton[4];
         this.audioIn = new AudioInputStream[4];
+        this.gui = gui;
         Color colors[] = { new Color(92, 1, 1), new Color(1, 1, 92), new Color(133, 138, 3),
                 new Color(1, 92, 1) };
         for (int i = 0; i < 4; i++) {
@@ -59,10 +62,9 @@ public class SimonButtons extends JPanel implements ActionListener{
     }
 
     @Override
-    public void actionPerformed(ActionEvent event)
-    {
+    public void actionPerformed(ActionEvent event) {
         System.out.println("1");
-        JButton pressedButton = (JButton)event.getSource();
+        JButton pressedButton = (JButton) event.getSource();
         int x = Integer.parseInt(pressedButton.getText());
         System.out.println(x);
         this.controller.userPatternPressed(x);
@@ -140,26 +142,31 @@ public class SimonButtons extends JPanel implements ActionListener{
         }
     }
 
-    public void startModification()
-    {
-        if(model.isGameOver().equals("LOST"))
-        {
-            System.out.println("You Lost the game");
-            //Task 2: Disable all buttons and add Start Game button to Restart the game
-        }
-        else if (model.isGameOver().equals("WIN"))
-        {
-            System.out.println("You WON");
-            //Task ==1: write code for some annimation and delay
-            this.controller.userPressed(4);
-            System.out.println("Statement after controller called");
-        }
-        else
-        {
-        this.button = 0;
-        ArrayList<Integer> pattern = model.getPattern();
-        System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
-        blinkButtons(pattern);
+    public void evaluator(char character) {
+        if (character == 'W') {
+            gui.victory();
+        } else {
+            gui.defeat();
         }
     }
+
+    public void startModification() {
+        if (model.isGameOver().equals("LOST")) {
+            System.out.println("You Lost the game");
+            evaluator('L');
+            // Task 2: Disable all buttons and add Start Game button to Restart the game
+        } else if (model.isGameOver().equals("WIN")) {
+            System.out.println("You WON");
+            // Task ==1: write code for some annimation and delay
+            evaluator('W');
+            this.controller.userPressed(4);
+            System.out.println("Statement after controller called");
+        } else {
+            this.button = 0;
+            ArrayList<Integer> pattern = model.getPattern();
+            System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
+            blinkButtons(pattern);
+        }
+    }
+
 }
