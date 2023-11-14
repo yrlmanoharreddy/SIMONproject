@@ -16,7 +16,7 @@ public class GameController implements ControllerInterface {
 
     @Override
     public void userPressed(int blocksCount) {
-        // System.out.println("In controller");
+        System.out.println("In controller");
         model.generatePattern(blocksCount);
     }
 
