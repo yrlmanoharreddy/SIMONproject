@@ -30,7 +30,7 @@ public class SimonModel {
     }
 
     public void generatePattern(int blocksCount) {
-        System.out.println("Game strt");
+        // System.out.println("Game strt");
         winStatus = "STARTED";
         z = 0;
         userPattern.clear();
@@ -57,34 +57,29 @@ public class SimonModel {
         return pattern;
     }
 
-    public void setUserPattern(int blockNumber)
-    {
+    public void setUserPattern(int blockNumber) {
         userPattern.add(blockNumber);
         z++;
         comparePatterns();
     }
 
-    public void comparePatterns()
-    {
-        int m = userPattern.get(userPattern.size()-1);
-        int n = pattern.get(z-1);
-        System.out.println("userpressed:"+m+":systempattern:"+n);
-        if(m != n)
-        {
+    public void comparePatterns() {
+        int m = userPattern.get(userPattern.size() - 1);
+        int n = pattern.get(z - 1);
+        System.out.println("userpressed:" + m + ":systempattern:" + n);
+        if (m != n) {
             winStatus = "LOST";
             notifyObservers();
             return;
         }
 
-        if(userPattern.size() == pattern.size())
-        {
+        if (userPattern.size() == pattern.size()) {
             winStatus = "WIN";
             notifyObservers();
         }
     }
 
-    public String isGameOver()
-    {
+    public String isGameOver() {
         return winStatus;
     }
 

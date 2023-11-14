@@ -4,29 +4,25 @@ import simonproject.ControllerInterface;
 import simonproject.model.SimonModel;
 import simonproject.view.SimonGUI;
 
-public class GameController implements ControllerInterface
-{
+public class GameController implements ControllerInterface {
     private SimonModel model;
     private SimonGUI view;
 
-    public GameController(SimonModel model)
-    {
+    public GameController(SimonModel model) {
         this.model = model;
 
         this.view = new SimonGUI(this, model);
     }
 
     @Override
-    public void userPressed(int blocksCount)
-    {
-        System.out.println("In controller");
+    public void userPressed(int blocksCount) {
+        // System.out.println("In controller");
         model.generatePattern(blocksCount);
     }
 
     @Override
-    public void userPatternPressed(int blockNumber)
-    {
-        System.out.println("User Pressing buttons **" + blockNumber);
+    public void userPatternPressed(int blockNumber) {
+        // System.out.println("User Pressing buttons **" + blockNumber);
         model.setUserPattern(blockNumber);
     }
 }

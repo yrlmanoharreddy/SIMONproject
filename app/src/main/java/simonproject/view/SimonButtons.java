@@ -159,7 +159,7 @@ public class SimonButtons extends JPanel implements ActionListener {
             System.out.println("You WON");
             // Task ==1: write code for some annimation and delay
             evaluator('W');
-            this.controller.userPressed(4);
+            // this.controller.userPressed(4);
             System.out.println("Statement after controller called");
         } else {
             this.button = 0;

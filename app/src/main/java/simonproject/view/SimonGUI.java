@@ -96,6 +96,7 @@ public class SimonGUI implements GameObserver, ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 removeVictPanel();
+                System.out.println("test1");
                 enableButtons();
             }
         });
@@ -110,14 +111,15 @@ public class SimonGUI implements GameObserver, ActionListener {
         }
         this.buttons.setVisible(true);
         this.startButton.setVisible(true);
-        Timer timer = new Timer(1500, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reInit();
-            }
-        });
-        timer.setRepeats(false);
-        timer.start();
+        reInit();
+        // Timer timer = new Timer(4000, new ActionListener() {
+        // @Override
+        // public void actionPerformed(ActionEvent e) {
+        // reInit();
+        // }
+        // });
+        // timer.setRepeats(false);
+        // timer.start();
     }
 
     public void reInit() {
