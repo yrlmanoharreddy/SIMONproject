@@ -18,6 +18,15 @@ public class SimonGUI implements GameObserver, ActionListener {
     private JPanel victPanel;
     private JLabel victLabel;
     private int flag;
+    private JFrame startFrame;
+    private JPanel startGamePanel;
+    private JButton startGameButton;
+    private JFrame loadFrame;
+    private JButton loadGameButton;
+    protected boolean state;
+    private JButton quitGameButton;
+    private JPanel beginPanel;
+    private boolean state_flag;
 
     public SimonGUI(ControllerInterface controller, SimonModel model) {
         this.controller = controller;
@@ -25,6 +34,157 @@ public class SimonGUI implements GameObserver, ActionListener {
 
         this.model.register(this);
 
+        this.startFrame = new JFrame("SIMON");
+        this.startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.startFrame.setResizable(false);
+
+        startGamePanel = new JPanel();
+        startGamePanel.setPreferredSize(new Dimension(600, 600));
+        startGamePanel.setLayout(new BoxLayout(startGamePanel, BoxLayout.Y_AXIS));
+        startGamePanel.setBackground(new Color(241, 245, 179));
+
+        Font font_start_menu = new Font("Forte", Font.BOLD, 20);
+
+        JLabel titleLabel = new JLabel("S I M O N");
+        titleLabel.setFont(new Font("Algerian", Font.BOLD, 80));
+        titleLabel.setHorizontalAlignment(JLabel.CENTER);
+        titleLabel.setForeground(new Color(142, 70, 143));
+
+        JRadioButton radioButton1 = new JRadioButton("Easy");
+        radioButton1.setFont(new Font("forte", Font.BOLD, 20));
+        radioButton1.setForeground(new Color(142, 70, 143));
+        radioButton1.setBackground(new Color(241, 245, 179));
+        radioButton1.setSelected(true);
+        radioButton1.setFocusable(false);
+
+        JRadioButton radioButton2 = new JRadioButton("Medium");
+        radioButton2.setFont(new Font("forte", Font.BOLD, 20));
+        radioButton2.setForeground(new Color(142, 70, 143));
+        radioButton2.setBackground(new Color(241, 245, 179));
+        radioButton2.setFocusable(false);
+
+        JRadioButton radioButton3 = new JRadioButton("Hard");
+        radioButton3.setFont(new Font("forte", Font.BOLD, 20));
+        radioButton3.setForeground(new Color(142, 70, 143));
+        radioButton3.setBackground(new Color(241, 245, 179));
+        radioButton3.setFocusable(false);
+
+        ButtonGroup group = new ButtonGroup();
+        group.add(radioButton1);
+        group.add(radioButton2);
+        group.add(radioButton3);
+
+        startGameButton = new JButton("Start new game");
+        startGameButton.setBackground(new Color(142, 70, 143));
+        startGameButton.setForeground(Color.white);
+        startGameButton.setFocusable(false);
+        startGameButton.setFont(font_start_menu);
+        startGameButton.addActionListener(new ActionListener() {
+            private boolean state_flag;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (state_flag) {
+                    loadFrame.dispose();
+                }
+                disableGameStartPanel();
+            }
+
+        });
+
+        loadGameButton = new JButton("Load game");
+        loadGameButton.setBackground(new Color(142, 70, 143));
+        loadGameButton.setForeground(Color.WHITE);
+        loadGameButton.setFocusable(false);
+        loadGameButton.setFont(font_start_menu);
+        loadGameButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!state) {
+                    showNoStatePanel();
+                }
+            }
+
+        });
+
+        quitGameButton = new JButton("Quit");
+        quitGameButton.setBackground(new Color(142, 70, 143));
+        quitGameButton.setForeground(Color.WHITE);
+        quitGameButton.setFocusable(false);
+        quitGameButton.setFont(font_start_menu);
+        quitGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                startFrame.dispose();
+            }
+        });
+
+        beginPanel = new JPanel();
+        beginPanel.setLayout(new BoxLayout(beginPanel, BoxLayout.Y_AXIS));
+        beginPanel.setBackground(new Color(241, 245, 179));
+
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(new Color(241, 245, 179));
+        titlePanel.add(titleLabel);
+
+        JPanel radioPanel = new JPanel();
+        radioPanel.setBackground(new Color(241, 245, 179));
+        radioPanel.add(radioButton1);
+        radioPanel.add(radioButton2);
+        radioPanel.add(radioButton3);
+
+        JPanel buttonPanel_menu = new JPanel();
+        buttonPanel_menu.setLayout(new BoxLayout(buttonPanel_menu,
+                BoxLayout.Y_AXIS));
+        buttonPanel_menu.setBackground(new Color(241, 245, 179));
+        buttonPanel_menu.add(startGameButton);
+        buttonPanel_menu.add(Box.createVerticalStrut(10));
+        buttonPanel_menu.add(loadGameButton);
+        buttonPanel_menu.add(Box.createVerticalStrut(10));
+        buttonPanel_menu.add(quitGameButton);
+        buttonPanel_menu.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel_menu.setMaximumSize(new Dimension(200, 200));
+
+        beginPanel.add(titlePanel);
+        beginPanel.add(radioPanel);
+        beginPanel.add(buttonPanel_menu);
+
+        startGamePanel.add(Box.createVerticalGlue());
+        startGamePanel.add(beginPanel);
+        startGamePanel.add(Box.createVerticalGlue());
+
+        this.startFrame.add(startGamePanel);
+        this.startFrame.pack();
+        this.startFrame.setVisible(true);
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    }
+
+    private void showNoStatePanel() {
+        this.loadFrame = new JFrame("Load game");
+        this.loadFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.loadFrame.setResizable(false);
+
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(300, 300));
+        panel.setBackground(new Color(255, 0, 0));
+        panel.add(this.startGameButton);
+
+        this.loadFrame.add(panel);
+        this.loadFrame.pack();
+        this.loadFrame.setVisible(true);
+        state_flag = true;
+    }
+
+    private void disableGameStartPanel() {
+        startFrame.setVisible(false);
+        enableGamePlayPanel();
+    }
+
+    private void enableGamePlayPanel() {
         this.mainFrame = new JFrame("S I M O N");
 
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,7 +272,7 @@ public class SimonGUI implements GameObserver, ActionListener {
         this.buttons.setVisible(true);
         this.startButton.setVisible(true);
         reInit();
-        // Timer timer = new Timer(4000, new ActionListener() {
+        // Timer timer = new Timer(1000, new ActionListener() {
         // @Override
         // public void actionPerformed(ActionEvent e) {
         // reInit();
@@ -137,14 +297,10 @@ public class SimonGUI implements GameObserver, ActionListener {
 
     public void defeat() {
         System.out.println("This is Defeat");
-        // JButton stb = this.startButton;
         this.buttons.setVisible(false);
         this.startButton.setVisible(false);
         victPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         victPanel.setBackground(Color.RED);
-        // stb.setVisible(true);
-        // stb.addActionListener(this);
-        // victPanel.add(stb);
         this.startButton.setVisible(true);
         victPanel.add(this.startButton);
         flag = 1;
