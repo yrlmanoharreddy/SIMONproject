@@ -22,7 +22,7 @@ public class GameController implements ControllerInterface {
 
     @Override
     public void userPatternPressed(int blockNumber) {
-        // System.out.println("User Pressing buttons **" + blockNumber);
+        System.out.println("User Pressing buttons **" + blockNumber);
         model.setUserPattern(blockNumber);
     }
 }
