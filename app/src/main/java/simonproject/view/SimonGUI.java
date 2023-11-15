@@ -27,6 +27,7 @@ public class SimonGUI implements GameObserver, ActionListener {
     private JButton quitGameButton;
     private JPanel beginPanel;
     private boolean state_flag;
+    private int patternLength;
 
     public SimonGUI(ControllerInterface controller, SimonModel model) {
         this.controller = controller;
@@ -81,14 +82,37 @@ public class SimonGUI implements GameObserver, ActionListener {
         startGameButton.setFocusable(false);
         startGameButton.setFont(font_start_menu);
         startGameButton.addActionListener(new ActionListener() {
-            private boolean state_flag;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (state_flag) {
+                    System.out.println("111");
                     loadFrame.dispose();
                 }
-                disableGameStartPanel();
+                if (radioButton1.isSelected()) {
+                    System.out.println("Option 1 selected. Starting game...");
+                    // Add your logic for starting the game with Option 1
+                    disableGameStartPanel();
+                    System.out.println("Easy");
+                    patternLength = 2;
+                } else if (radioButton2.isSelected()) {
+                    System.out.println("Option 2 selected. Starting game...");
+                    // Add your logic for starting the game with Option 2
+                    disableGameStartPanel();
+                    System.out.println("Medium");
+                    patternLength = 4;
+                } else if (radioButton3.isSelected()) {
+                    System.out.println("Option 3 selected. Starting game...");
+                    // Add your logic for starting the game with Option 3
+                    disableGameStartPanel();
+                    System.out.println("Hard");
+                    patternLength = 6;
+                } else {
+                    System.out.println("No option selected. Please select an option.");
+                    System.out.println("patt length: " + patternLength);
+                    disableGameStartPanel();
+                    // patternLength = 2;
+                }
             }
 
         });
@@ -234,8 +258,8 @@ public class SimonGUI implements GameObserver, ActionListener {
             flag = 0;
             return;
         } else {
-            System.out.println("Clicked btn");
-            this.controller.userPressed(4);
+            System.out.println("Clicked btn"+patternLength);
+            this.controller.userPressed(patternLength);
         }
     }
 
@@ -283,7 +307,8 @@ public class SimonGUI implements GameObserver, ActionListener {
     }
 
     public void reInit() {
-        this.controller.userPressed(4);
+        System.out.println("*1"+patternLength);
+        this.controller.userPressed(patternLength);
     }
 
     public void removeVictPanel() {
@@ -305,6 +330,7 @@ public class SimonGUI implements GameObserver, ActionListener {
         victPanel.add(this.startButton);
         flag = 1;
         this.mainPanel.add(victPanel);
+        System.out.println("FINAL STEP");
         mainFrame.revalidate();
         mainFrame.repaint();
     }

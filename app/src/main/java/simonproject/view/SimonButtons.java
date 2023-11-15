@@ -21,8 +21,8 @@ public class SimonButtons extends JPanel implements ActionListener {
 
     private SimonModel model;
     private SimonGUI gui;
-    private ArrayList<Integer> pattern = new ArrayList<>();
-    private AudioInputStream audioIn[];
+    private ArrayList<Integer> pattern;
+    // private AudioInputStream audioIn[];
     private JButton buttons[];
     private int button = 0;
     private ControllerInterface controller;
@@ -30,9 +30,10 @@ public class SimonButtons extends JPanel implements ActionListener {
     public SimonButtons(SimonModel model, ControllerInterface controller, SimonGUI gui) {
         this.controller = controller;
         this.model = model;
+        this.pattern = new ArrayList<>();
         this.setLayout(new GridLayout(2, 2));
         this.buttons = new JButton[4];
-        this.audioIn = new AudioInputStream[4];
+        // this.audioIn = new AudioInputStream[4];
         this.gui = gui;
         Color colors[] = { new Color(92, 1, 1), new Color(1, 1, 92), new Color(133, 138, 3),
                 new Color(1, 92, 1) };
@@ -52,8 +53,8 @@ public class SimonButtons extends JPanel implements ActionListener {
             for (int i = 0; i < 4; i++) {
                 URL url = getClass().getResource("/beep" + (i + 1) + ".wav");
                 System.out.println(url);
-                AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
-                this.audioIn[i] = audioIn;
+                // AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+                // this.audioIn[i] = audioIn;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,16 +74,16 @@ public class SimonButtons extends JPanel implements ActionListener {
     public void blinkButtons(ArrayList<Integer> pattern) {
         this.pattern = pattern;
         try {
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn[pattern.get(button) - 1]);
-            blinkButton(pattern.get(button), clip);
+            // Clip clip = AudioSystem.getClip();
+            // clip.open(audioIn[pattern.get(button) - 1]);
+            blinkButton(pattern.get(button)); //, clip
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void blinkButton(int buttonIndex, Clip clip) {
+    private void blinkButton(int buttonIndex) { //, Clip clip
         Timer timer = new Timer(50 * (buttonIndex + 2), new ActionListener() {
             int count = 0;
             JButton currentButton = buttons[buttonIndex - 1];
@@ -100,7 +101,7 @@ public class SimonButtons extends JPanel implements ActionListener {
                     if (button < pattern.size()) {
                         blinkButtons(pattern);
                     }
-                    clip.stop();
+                    // clip.stop();
                 }
                 count++;
             }
@@ -163,7 +164,7 @@ public class SimonButtons extends JPanel implements ActionListener {
             System.out.println("Statement after controller called");
         } else {
             this.button = 0;
-            ArrayList<Integer> pattern = model.getPattern();
+            this.pattern = model.getPattern();
             System.out.println("pattern * " + model.getButtonLightUp() + "LIST:" + pattern);
             blinkButtons(pattern);
         }

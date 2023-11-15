@@ -24,8 +24,8 @@ public class SimonModel {
         this.winStatus = "STARTED";
     }
 
-    public void randombuttonLightUp(int blocksCount) {
-        buttonLightUp = this.random.nextInt(blocksCount) + 1;
+    public void randombuttonLightUp() {
+        buttonLightUp = this.random.nextInt(4) + 1;
         pattern.add(buttonLightUp);
     }
 
@@ -37,10 +37,10 @@ public class SimonModel {
         pattern.clear();
 
         this.blocksCount = blocksCount;
-        this.patternlength = random.nextInt(blocksCount) + 1;
-        System.out.println("patternlen :" + patternlength);
-        for (int i = 0; i < patternlength; i++) {
-            randombuttonLightUp(blocksCount);
+        // this.patternlength = random.nextInt(blocksCount) + 1;
+        System.out.println("patternlen :" + blocksCount);
+        for (int i = 0; i < blocksCount; i++) {
+                randombuttonLightUp();
         }
         notifyObservers();
     }
